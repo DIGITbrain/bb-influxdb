@@ -1,0 +1,22 @@
+# docker build -t influx:2.1.1 .
+# docker run -d --name influx -e DOCKER_INFLUXDB_INIT_MODE=setup -e DOCKER_INFLUXDB_INIT_USERNAME=myusername -e DOCKER_INFLUXDB_INIT_PASSWORD=mypassword -e DOCKER_INFLUXDB_INIT_ORG=myorg -e DOCKER_INFLUXDB_INIT_BUCKET=mybucket -p 10000:8086 influx:2.1.1
+
+FROM influxdb:2.1.1
+
+COPY ./certificates/ca.pem /etc/ssl/ca.pem
+COPY ./certificates/server-key.pem  /etc/ssl/server-key.pem
+COPY ./certificates/server-cert.pem /etc/ssl/server-cert.pem
+RUN chmod 600 /etc/ssl/server-*.pem
+RUN chmod 644 /etc/ssl/ca.pem
+RUN chown influxdb:influxdb /etc/ssl/server-*.pem
+RUN chown influxdb:influxdb /etc/ssl/ca.pem
+
+# RUN mkdir -p /etc/influxdb2/
+# RUN chown -R influxdb:influxdb /etc/influxdb/
+# CMD echo '[http]' >> /etc/influxdb2/influxdb.conf
+# CMD echo '  https-enabled = true' >> /etc/influxdb2/influxdb.conf
+# CMD echo '  https-certificate = /etc/ssl/server-cert.pem' >> /etc/influxdb2/influxdb.conf
+# CMD echo '  https-private-key = /etc/ssl/server-key.pem' >> /etc/influxdb2/influxdb.conf
+
+ENTRYPOINT ["/entrypoint.sh"]
+CMD ["influxd", "--tls-cert", "/etc/ssl/server-cert.pem", "--tls-key", "/etc/ssl/server-key.pem"]
