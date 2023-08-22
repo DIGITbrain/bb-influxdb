@@ -1,7 +1,7 @@
-# docker build -t influx:2.1.1 .
-# docker run -d --name influx -e DOCKER_INFLUXDB_INIT_MODE=setup -e DOCKER_INFLUXDB_INIT_USERNAME=myusername -e DOCKER_INFLUXDB_INIT_PASSWORD=mypassword -e DOCKER_INFLUXDB_INIT_ORG=myorg -e DOCKER_INFLUXDB_INIT_BUCKET=mybucket -p 10000:8086 influx:2.1.1
+# docker build -t influx:2.7 .
+# docker run -d --name influx -e DOCKER_INFLUXDB_INIT_MODE=setup -e DOCKER_INFLUXDB_INIT_USERNAME=myusername -e DOCKER_INFLUXDB_INIT_PASSWORD=mypassword -e DOCKER_INFLUXDB_INIT_ORG=myorg -e DOCKER_INFLUXDB_INIT_BUCKET=mybucket -p 10000:8086 influx:2.7
 
-FROM influxdb:2.1.1
+FROM influxdb:2.7
 
 COPY ./certificates/ca.pem /etc/ssl/ca.pem
 COPY ./certificates/server-key.pem  /etc/ssl/server-key.pem

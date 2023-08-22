@@ -10,7 +10,7 @@ Source codes are available onb GitHub [2]_.
 
 Version
 -------
-InfluxDB version **2.1.1** is deployed based on official Docker Hub image [3]_. 
+InfluxDB version **2.7** is deployed based on official Docker Hub image [3]_.
 
 License
 -------
@@ -21,9 +21,9 @@ Pre-requisites
 
 * *docker* installed
 * access to DIGITbrain private docker repo (username, password) to pull the image:
-  
+
   - ``docker login dbs-container-repo.emgora.eu``
-  - ``docker pull dbs-container-repo.emgora.eu/influxdb:2.1.1``
+  - ``docker pull dbs-container-repo.emgora.eu/influxdb:2.7``
 
 Usage
 =====
@@ -36,7 +36,7 @@ $ docker run -p 8086:8086 \
       -e DOCKER_INFLUXDB_INIT_PASSWORD=mypassword \
       -e DOCKER_INFLUXDB_INIT_ORG=myorg \
       -e DOCKER_INFLUXDB_INIT_BUCKET=mybucket \
-      influx:2.1.1
+      influx:2.7
 
 
 where DOCKER_INFLUXDB_INIT_USERNAME and DOCKER_INFLUXDB_INIT_PASSWORD are the username and password to access the storage,
@@ -51,7 +51,7 @@ Security
 ========
 The image uses username-password authentication and HTTPS with a server cerificate signed by DIGITbrain CA.
 
-Certificates in the container can be found in directory: /etc/ssl, 
+Certificates in the container can be found in directory: /etc/ssl,
 which can (should) be updated. See Volumes below to override.
 
 Using MinIO client, you can disable hostname verification.
@@ -61,15 +61,15 @@ Using MinIO client, you can disable hostname verification.
   $ curl -vk --cacert "ca.pem" https://<influx-db-host>:8086
   # InfluxDB CLI
   $ export INFLUX_SKIP_VERIFY="true"
-  $  influx config create --config-name inf --host-url https://localhost:8086 --org myorg --token <token> --active  
+  $ influx config create --config-name inf --host-url https://localhost:8086 --org myorg --token <token> --active
   $ influx ping
-    OK 
+    OK
 Configuration
 -------------
 
 Environment variables
 ---------------------
-.. list-table:: 
+.. list-table::
    :header-rows: 1
 
    * - Name
@@ -90,10 +90,10 @@ Environment variables
    * - *DOCKER_INFLUXDB_INIT_RETENTION*
      - ``-e DOCKER_INFLUXDB_INIT_RETENTION=1w``
      - The duration the system's initial bucket should retain data. If not set, the initial bucket will retain data forever.
-  
+
 Ports
 -----
-.. list-table:: 
+.. list-table::
   :header-rows: 1
 
   * - Container port
@@ -109,28 +109,28 @@ Volumes
 
 The container might use the following volume mounts.
 
-.. list-table:: 
+.. list-table::
    :header-rows: 1
 
    * - Name
      - Volume mount
      - Comment
-   * - *Data*    
-     - -v $PWD/data_directory_on_host:/var/lib/influxdb2  
+   * - *Data*
+     - -v $PWD/data_directory_on_host:/var/lib/influxdb2
      - InfluxDB data. Use this directory to persist data.
-   * - *Configuration*    
+   * - *Configuration*
      - -v $PWD/config.yml:/etc/influxdb2/config.yml
      - InfluxDB configuration file. INFLUXD_CONFIG_PATH specificies the directory of config files.
-   * - *Server key*    
-     - -v $PWD/certs/server-key.pem:/etc/ssl/server.key 
+   * - *Server key*
+     - -v $PWD/certs/server-key.pem:/etc/ssl/server.key
      - Server key
-   * - *Server certificate*    
-     - -v $PWD/certs/server-cert.pem:/etc/ssl/server.cert 
+   * - *Server certificate*
+     - -v $PWD/certs/server-cert.pem:/etc/ssl/server.cert
      - Server key and certificate for API and Console with names: private.key and server.crt.
-   * - *CA certificate*    
-     - -v $PWD/certs/ca.pem:/etc/ssl/public.crt  
+   * - *CA certificate*
+     - -v $PWD/certs/ca.pem:/etc/ssl/public.crt
      - Certificate Authority certificate (containing server certificate and CA certificate too).
-   
+
 References
 ==========
 

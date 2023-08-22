@@ -14,7 +14,7 @@ MIT License
 
 ## Version
 
-2.0.7
+2.7
 
 ## Description
 
@@ -34,7 +34,7 @@ docker run -d --rm \
       -e DOCKER_INFLUXDB_INIT_ORG=sztaki \
       -e DOCKER_INFLUXDB_INIT_BUCKET=mybucket \
       -v $PWD/data:/var/lib/influxdb2 \
-      influxdb:2.0.7
+      influxdb:2.7
  ```
 
 ## Parameters
